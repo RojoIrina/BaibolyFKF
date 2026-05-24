@@ -1,35 +1,64 @@
-Markdown
 # Baiboly FKF - Studio Control & Projection
 
-Application desktop moderne de projection biblique et de gestion de messages en direct pour les services de culte, développée en Python (CustomTkinter) avec une base de données SQLite.
+Application desktop de projection biblique et de gestion de messages en direct pour la régie des services de culte. Interface d'administration double-écran développée en Python (CustomTkinter) et base de données relationnelle SQLite.
 
 ---
 
-## 🛠️ Installation & Lancement
+## Spécifications Techniques & Prérequis
 
-1. Placez-vous dans le dossier du projet :
-   ```bash
-   cd chemin/vers/le/projet
-Installez la seule dépendance requise :
+* Langage : Python 3.x
+* IHM : CustomTkinter (Thread principal asynchrone)
+* Base de données : SQLite3 (Moteur de recherche insensible à la casse et aux espaces via l'opérateur LIKE)
+* Arborescence requise :
+  - MonProjetBible/
+    |-- app.py (Script principal)
+    |-- moteur_bible.db (Base SQLite contenant la table 'versets')
 
-Bash
-pip install customtkinter
-Lancez l'application :
+---
 
-Bash
-python app.py
-⚠️ Important : Le fichier de la base de données moteur_bible.db doit obligatoirement se trouver dans le même dossier que app.py.
+## Installation & Lancement
 
-🚀 Utilisation Rapide
-Recherche de versets : Saisissez la référence (ex: Jaona 3:16, Matio 5 ou Romana 8:1-10) dans le champ supérieur et appuyez sur Entrée.
+1. Accéder au répertoire du projet :
+   cd chemin/vers/votre/projet
 
-Navigation : Utilisez les boutons Aloha (Précédent) et Manaraka (Suivant) à droite pour contrôler l'écran de projection.
+2. Installer la dépendance d'interface graphique :
+   pip install customtkinter
 
-Message direct (Annonces / Cantiques) : Écrivez votre texte dans la case en bas à gauche et appuyez sur Entrée pour l'afficher centré sur l'écran.
+3. Exécuter l'application :
+   python app.py
 
-📦 Compilation en .EXE (Windows)
-Pour créer l'exécutable autonome pour la régie, installez PyInstaller et lancez cette commande unique :
+---
 
-Bash
-pip install pyinstaller
-pyinstaller --noconfirm --onedir --windowed --add-data "moteur_bible.db;." app.py
+## Guide d'Exploitation (Régie)
+
+### 1. Recherche et Injection de Versets
+Saisir la syntaxe dans le champ supérieur puis valider avec la touche Entrée ou le bouton AMPIDIRINA AO AMIN'NY PROGRAMME :
+* Verset unique : Jaona 3:16 (ou 3 Jaona 1:4)
+* Chapitre complet : Matio 5
+* Plage de versets : Romana 8:1-10
+
+### 2. Gestion de la Playlist (Panneau Latéral)
+* ALOHA / MANARAKA : Commutation des versets actifs sur l'écran de projection.
+* VIDER : Purge complète de la file d'attente.
+* LANCER L'AUTO : Déclenchement du défilement minuté automatisé (géré par un thread indépendant pour éviter le gel de l'IHM).
+
+### 3. Diffusion de Messages Directs (Annonces / Cantiques)
+* Saisir le texte libre dans le champ Hafatra  en bas à gauche.
+* Valider via Entrée pour centrer automatiquement le texte à l'écran et masquer temporairement les références bibliques actives.
+
+---
+
+## Compilation & Déploiement (.EXE Windows)
+
+L'exécutable autonome regroupe l'interpréteur Python, les dépendances graphiques et la base de données sans installation requise sur le poste cible.
+
+1. Installer l'outil de packaging :
+   pip install pyinstaller
+
+2. Exécuter la commande de compilation à la racine du projet :
+   pyinstaller --noconfirm --onedir --windowed --add-data "moteur_bible.db;." app.py
+
+### Instructions Obligatoires de Déploiement
+* Le livrable est généré dans le répertoire dist/app/.
+* Règle absolue : Ne jamais extraire le fichier app.exe de son dossier d'origine sous peine de rompre la liaison avec les bibliothèques système de l'interface graphique et la base de données.
+* Pour l'exploitation, réaliser un clic droit sur app.exe -> Envoyer vers -> Bureau (créer un raccourci).
